@@ -1,0 +1,100 @@
+<html>
+    <head>
+        <title>Info Windows</title>
+
+ <style>
+    /* 
+ * Optional: Makes the sample page fill the window. 
+ */
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+ </style>
+        <script>
+            // prettier-ignore
+            (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({
+                key: "AIzaSyC5l0aPyGFqiqY5DpqOYf-8YhN_eYHHobU"
+            });
+        </script>
+    </head>
+    <body>
+        <gmp-map
+            center="6.9353363, 101.2400026"
+            zoom="15"
+            map-id="DEMO_MAP_ID"></gmp-map>
+  
+  <script>
+    // This example displays a marker at the center of Australia.
+// When the user clicks the marker, an info window opens.
+
+async function init() {
+    // Import the needed libraries.
+    const [{ InfoWindow }, { AdvancedMarkerElement }] = await Promise.all([
+        google.maps.importLibrary('maps'),
+        google.maps.importLibrary('marker'),
+    ]);
+
+    // Get the map element and the inner map from it.
+    const mapElement = document.querySelector('gmp-map');
+    const innerMap = mapElement.innerMap;
+
+    // Get the center of the map.
+    const center = mapElement.center;
+
+    // Create the info window content.
+    const heading = document.createElement('h1');
+    heading.textContent = 'เรือเเบยีขาใหญ่นรา';
+
+    const content = document.createElement('div');
+
+    const infoParagraph = document.createElement('p');
+    infoParagraph.textContent = `คือ เรือเสือยีนรารุ่นใหญ๋ระเเงะใจถึงพึ่งได้ ไม่มีบอกไม่พอเบิก ตอนมีกับหมดบริบทมันต่างกัน`;
+
+    content.appendChild(infoParagraph);
+
+    const link = document.createElement('a');
+    link.href = 'https://www.youtube.com/watch?v=6afks6tI8gg';
+    link.textContent = 'ดูรายละเอียด';
+    link.target = '_blank';
+    content.appendChild(link);
+
+    // Create the info window.
+    const infoWindow = new InfoWindow({
+        headerContent: heading,
+        content,
+        ariaLabel: 'Uluru',
+        maxWidth: 500, // Set max width (optional).
+    });
+
+    // Create the marker.
+    const marker = new AdvancedMarkerElement({
+        position: center,
+        map: innerMap,
+        title: 'Uluru (Ayers Rock)',
+        gmpClickable: true,
+    });
+
+    // Open the info window when the map loads.
+    infoWindow.open({
+        anchor: marker,
+        map: innerMap,
+    });
+
+    // Open the info window when the marker is clicked.
+    marker.addEventListener('gmp-click', () => {
+        infoWindow.open({
+            anchor: marker,
+            map: innerMap,
+        });
+    });
+}
+
+void init();
+  </script>
+  
+        </body>  
+
+</html>
